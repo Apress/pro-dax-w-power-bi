@@ -1,0 +1,41 @@
+[
+  {
+    "StartTime": "2019-06-18T21:20:34.21+02:00",
+    "QueryType": "DAX",
+    "Duration": 86,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "DEFINE \n\n---- MODEL MEASURES BEGIN ----\nMEASURE 'Fact Sale'[Quantity - All Sales Territories] = CALCULATE(\n\t[Total Quantity]\n    ,ALL('Dimension City'[Sales Territory])\n)\nMEASURE 'Fact Sale'[Total Quantity] = CALCULATE(SUM('Fact Sale'[Quantity]) )\n---- MODEL MEASURES END ----\n\nMEASURE 'Fact Sale'[quantity divided by all] = DIVIDE([Total Quantity], [Quantity - All Sales Territories], BLANK())\n\n\nVAR __DS0FilterTable = \n  FILTER(\n    KEEPFILTERS(VALUES('Dimension City'[Sales Territory])),\n    'Dimension City'[Sales Territory] <> \"Southeast\"\n  )\n\nEVALUATE\n  TOPN(\n    502,\n    SUMMARIZECOLUMNS(\n      ROLLUPADDISSUBTOTAL('Dimension City'[Sales Territory], \"IsGrandTotalRowTotal\"),\n      __DS0FilterTable,\n      \"Total_Quantity\", 'Fact Sale'[Total Quantity],\n      \"quantity_divided_by_all\", 'Fact Sale'[quantity divided by all],\n      \"quantity_divided_by_allselected\", 'Fact Sale'[quantity divided by allselected],\n      \"quantity_divided_by_values\", 'Fact Sale'[quantity divided by values]\n    ),\n    [IsGrandTotalRowTotal],\n    0,\n    'Dimension City'[Sales Territory],\n    1\n  )\n\nORDER BY\n  [IsGrandTotalRowTotal] DESC, 'Dimension City'[Sales Territory]",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "3319DA8E-0E29-479B-B637-CF2721906B43",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  },
+  {
+    "StartTime": "2019-06-18T21:19:28.776667+02:00",
+    "QueryType": "DAX",
+    "Duration": 67,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "DEFINE \n\n---- MODEL MEASURES BEGIN ----\nMEASURE 'Fact Sale'[Quantity - All Sales Territories] = CALCULATE(\n--MEASURE [Quantity - All Sales Territories] = CALCULATE(\n\t[Total Quantity]\n    ,ALL('Dimension City'[Sales Territory])\n)\nMEASURE 'Fact Sale'[Total Quantity] = CALCULATE(SUM('Fact Sale'[Quantity]) )\n--MEASURE [Total Quantity] = CALCULATE(SUM('Fact Sale'[Quantity]) )\n---- MODEL MEASURES END ----\n\nMEASURE 'Fact Sale'[quantity divided by all] = DIVIDE([Total Quantity], [Quantity - All Sales Territories], BLANK())\n--MEASURE [quantity divided by all] = DIVIDE([Total Quantity], [Quantity - All Sales Territories], BLANK())\n\nVAR __DS0FilterTable = \n  FILTER(\n    KEEPFILTERS(VALUES('Dimension City'[Sales Territory])),\n    'Dimension City'[Sales Territory] <> \"Southeast\"\n  )\n\nEVALUATE\n  TOPN(\n    502,\n    SUMMARIZECOLUMNS(\n      ROLLUPADDISSUBTOTAL('Dimension City'[Sales Territory], \"IsGrandTotalRowTotal\"),\n      __DS0FilterTable,\n      \"Total_Quantity\", 'Fact Sale'[Total Quantity],\n      \"quantity_divided_by_all\", 'Fact Sale'[quantity divided by all],\n      \"quantity_divided_by_allselected\", 'Fact Sale'[quantity divided by allselected],\n      \"quantity_divided_by_values\", 'Fact Sale'[quantity divided by values]\n    ),\n    [IsGrandTotalRowTotal],\n    0,\n    'Dimension City'[Sales Territory],\n    1\n  )\n\nORDER BY\n  [IsGrandTotalRowTotal] DESC, 'Dimension City'[Sales Territory]",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "6516E16F-AD8A-4E28-8AEF-FB210C38EB74",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  },
+  {
+    "StartTime": "2019-06-18T21:17:43.926667+02:00",
+    "QueryType": "DAX",
+    "Duration": 40,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "DEFINE VAR __DS0FilterTable = \r\n  FILTER(\r\n    KEEPFILTERS(VALUES('Dimension City'[Sales Territory])),\r\n    'Dimension City'[Sales Territory] <> \"Southeast\"\r\n  )\r\n\r\nEVALUATE\r\n  TOPN(\r\n    502,\r\n    SUMMARIZECOLUMNS(\r\n      ROLLUPADDISSUBTOTAL('Dimension City'[Sales Territory], \"IsGrandTotalRowTotal\"),\r\n      __DS0FilterTable,\r\n      \"Total_Quantity\", 'Fact Sale'[Total Quantity],\r\n      \"quantity_divided_by_all\", 'Fact Sale'[quantity divided by all],\r\n      \"quantity_divided_by_allselected\", 'Fact Sale'[quantity divided by allselected],\r\n      \"quantity_divided_by_values\", 'Fact Sale'[quantity divided by values]\r\n    ),\r\n    [IsGrandTotalRowTotal],\r\n    0,\r\n    'Dimension City'[Sales Territory],\r\n    1\r\n  )\r\n\r\nORDER BY\r\n  [IsGrandTotalRowTotal] DESC, 'Dimension City'[Sales Territory]",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "9335FBE0-DEE0-446A-8B20-6425D4FA19DA",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  }
+]

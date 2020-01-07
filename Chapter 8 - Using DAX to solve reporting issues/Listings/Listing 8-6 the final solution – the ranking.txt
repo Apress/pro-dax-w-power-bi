@@ -1,0 +1,7 @@
+_Rank = 
+RANKX(
+    ALLSELECTED('Dimension City'[Sales Territory])
+    , CALCULATE([Total Quantity])
+    ,
+    , DESC
+)

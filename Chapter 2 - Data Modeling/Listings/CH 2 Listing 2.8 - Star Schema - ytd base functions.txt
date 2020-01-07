@@ -1,0 +1,9 @@
+quantity ytd = 
+CALCULATE(
+    SUM('Fact Sale'[Quantity])
+    ,FILTER(
+        ALL('Dimension Date'[Date])
+        ,'Dimension Date'[Date] <= MAX('Dimension Date'[Date])
+        && YEAR('Dimension Date'[Date]) = YEAR(MAX('Dimension Date'[Date]))
+    )
+)

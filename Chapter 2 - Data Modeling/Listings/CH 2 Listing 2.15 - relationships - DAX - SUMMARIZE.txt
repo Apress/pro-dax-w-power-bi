@@ -1,0 +1,10 @@
+EVALUATE
+ADDCOLUMNS(
+	SUMMARIZE(
+		'Fact Sale'
+		,'Dimension Customer'[Category]
+		,'Dimension Stock Item'[Color]
+	)
+	,"No of rows"
+	,COUNTROWS('Fact Sale')
+)

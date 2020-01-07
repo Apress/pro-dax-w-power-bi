@@ -1,0 +1,5 @@
+Measure with Row Context =
+SUMX(
+    'Fact Sale'
+    ,'Fact Sale'[Quantity]
+) 

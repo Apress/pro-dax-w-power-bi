@@ -1,0 +1,5 @@
+quantity ytd time intelligence = 
+CALCULATE(
+    SUM('Fact Sale'[Quantity])
+    ,DATESYTD('Dimension Date'[Date])
+) 

@@ -1,0 +1,2 @@
+No of products - base table = 
+COUNTROWS('Dimension Product - base table') 

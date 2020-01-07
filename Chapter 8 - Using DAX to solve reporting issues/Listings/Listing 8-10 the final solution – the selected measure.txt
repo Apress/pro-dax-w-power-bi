@@ -1,0 +1,8 @@
+Measure Table SelectedValue = 
+var theSelectedMeasure = SELECTEDVALUE('Measure Table'[Slicer], "Default")
+return
+SWITCH(theSelectedMeasure
+    , "Profit" , [Total Profit]
+    , "Quantity" , [Total Quantity]
+, [Total Quantity]
+) 

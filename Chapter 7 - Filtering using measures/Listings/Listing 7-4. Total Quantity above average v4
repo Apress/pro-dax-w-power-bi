@@ -1,0 +1,10 @@
+Total Quantity above average v4 = 
+var theAverage = [Average Quantity]
+return
+CALCULATE(
+    [Total quantity]
+    ,FILTER(
+        'Fact Sale'
+        , 'Fact Sale'[Quantity] > theAverage
+    )
+)

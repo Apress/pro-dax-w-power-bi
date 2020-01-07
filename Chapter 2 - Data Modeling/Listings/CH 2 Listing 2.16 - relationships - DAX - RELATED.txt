@@ -1,0 +1,2 @@
+Unit Price 2 = 
+RELATED('Dimension Stock Item'[Unit Price])

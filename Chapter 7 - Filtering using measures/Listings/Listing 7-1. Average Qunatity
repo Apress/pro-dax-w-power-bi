@@ -1,0 +1,2 @@
+Average Quantity = 
+AVERAGE('Fact Sale'[Quantity])

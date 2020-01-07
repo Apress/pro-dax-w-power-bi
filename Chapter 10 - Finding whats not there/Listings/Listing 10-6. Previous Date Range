@@ -1,0 +1,11 @@
+Previous Date Range Total Quantity = 
+var DateRangeStart = [DateStart]
+var DateRangeLength = DATEDIFF([DateStart] , [DateEnd] , DAY)
+var PrevDateRangeEnd = DateRangeStart - 1
+var PrevDateRangeStart = PrevDateRangeEnd - DateRangeLength
+var PrevDateRange = DATESBETWEEN('Dimension Date'[Date] ,  PrevDateRangeStart , PrevDateRangeEnd)
+return 
+CALCULATE(
+    [Total Quantity]
+    , PrevDateRange
+)

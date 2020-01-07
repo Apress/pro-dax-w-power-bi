@@ -1,0 +1,5 @@
+RunningMonthIndex = 
+var minYear = YEAR(MIN('Dimension Date'[Date]))
+var thisYear = YEAR('Dimension Date'[Date])
+return
+(thisYear - minYear) * 12 + MONTH('Dimension Date'[Date])

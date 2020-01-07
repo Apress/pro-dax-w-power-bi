@@ -1,0 +1,9 @@
+SET DC_KIND="AUTO";
+SELECT
+COUNT (  )
+FROM 'Fact Sale'
+	LEFT OUTER JOIN 'Dimension Date' ON 'Fact Sale'[Invoice Date Key]='Dimension Date'[Date]
+WHERE
+	'Dimension Date'[Calendar Month Label] = 'CY2014-Jul' VAND
+	'Dimension Date'[Calendar Year Label] = 'CY2014';
+

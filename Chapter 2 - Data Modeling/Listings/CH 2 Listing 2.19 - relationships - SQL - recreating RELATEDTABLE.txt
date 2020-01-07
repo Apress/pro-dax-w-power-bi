@@ -1,0 +1,11 @@
+SELECT
+	c.[Customer Key]
+,	c.Customer
+,	COUNT(factsale.[sale key]) AS 'No of Sales'
+FROM 
+	dimension.customer AS c
+		LEFT OUTER JOIN fact.Sale AS factsale ON
+			factsale.[Customer Key] = c.[Customer Key]
+GROUP BY
+	c.[Customer Key]
+,	c.Customer

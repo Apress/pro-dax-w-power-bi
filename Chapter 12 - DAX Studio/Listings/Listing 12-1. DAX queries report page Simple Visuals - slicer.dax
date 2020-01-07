@@ -1,0 +1,55 @@
+﻿
+// DAX query against Database: CH12 - a simple report 
+EVALUATE
+  ROW(
+    "SumProfit", CALCULATE(SUM('Fact Sale'[Profit])),
+    "SumQuantity", CALCULATE(SUM('Fact Sale'[Quantity])),
+    "SumTax_Amount", CALCULATE(SUM('Fact Sale'[Tax Amount])),
+    "SumTax_Rate", CALCULATE(SUM('Fact Sale'[Tax Rate]))
+  )
+
+// DAX query against Database: CH12 - a simple report 
+EVALUATE
+  TOPN(
+    101,
+    VALUES('Dimension Customer'[Customer Key]),
+    'Dimension Customer'[Customer Key],
+    1
+  )
+
+ORDER BY
+  'Dimension Customer'[Customer Key]
+
+// DAX query against Database: CH12 - a simple report 
+EVALUATE
+  ROW(
+    "SumQuantity", CALCULATE(SUM('Fact Sale'[Quantity]))
+  )
+
+// DAX query against Database: CH12 - a simple report 
+EVALUATE
+  ROW(
+    "SumTax_Rate", CALCULATE(SUM('Fact Sale'[Tax Rate]))
+  )
+
+// DAX query against Database: CH12 - a simple report 
+EVALUATE
+  ROW(
+    "SumTax_Amount", CALCULATE(SUM('Fact Sale'[Tax Amount]))
+  )
+
+// DAX query against Database: CH12 - a simple report 
+EVALUATE
+  ROW(
+    "SumProfit", CALCULATE(SUM('Fact Sale'[Profit]))
+  )
+
+// DAX query against Database: CH12 - a simple report 
+EVALUATE
+  ROW(
+    "SumQuantity", CALCULATE(SUM('Fact Sale'[Quantity])),
+    "SumProfit", CALCULATE(SUM('Fact Sale'[Profit])),
+    "SumTax_Amount", CALCULATE(SUM('Fact Sale'[Tax Amount])),
+    "SumTax_Rate", CALCULATE(SUM('Fact Sale'[Tax Rate]))
+  )
+

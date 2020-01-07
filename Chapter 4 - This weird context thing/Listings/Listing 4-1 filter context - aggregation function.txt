@@ -1,0 +1,2 @@
+Measure with Filter Context = 
+SUM('Fact Sale'[Quantity])

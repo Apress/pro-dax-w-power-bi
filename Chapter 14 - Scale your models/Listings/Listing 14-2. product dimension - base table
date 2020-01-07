@@ -1,0 +1,16 @@
+Dimension Product - base table = 
+var NoOfProductsToUse = [_No of Products To Use] --Maybe you will not receive the exact number as duplicate rows will be eliminated because of the usage of DISTINCT
+var NoOfProductsAvailable = COUNTROWS('Dimension Template')
+var ZeroPadding = CEILING(LOG10(NoOfProductsAvailable),1)
+var p0_productbasetable = DISTINCT(
+        SELECTCOLUMNS(
+            ADDCOLUMNS(
+                GENERATESERIES(1 , NoOfProductsToUse , 1)
+                , "Product ID" , RANDBETWEEN(1 , NoOfProductsAvailable)
+            )
+            , "Product ID" , [Product ID]
+            , "Product Name" , "P " & RIGHT(REPT("0" , ZeroPadding) &  [Product ID], LEN(NoOfProductsAvailable))
+        )
+    )
+return
+p0_productbasetable

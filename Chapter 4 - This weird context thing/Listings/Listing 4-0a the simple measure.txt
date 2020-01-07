@@ -1,0 +1,1 @@
+the simple measure = SUM('Fact Sale'[Quantity])

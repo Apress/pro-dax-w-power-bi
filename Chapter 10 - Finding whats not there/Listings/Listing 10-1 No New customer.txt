@@ -1,0 +1,7 @@
+No of New Customer = 
+var theseCustomers = VALUES('Fact Sale'[Customer Key])
+var theMonthBefore = SELECTEDVALUE('Dimension Date'[RunningMonthIndex]) - 1
+var theseCustomerBeforeCurrentMonth = 
+    CALCULATETABLE(VALUES('Fact Sale'[Customer Key]),FILTER(ALL('Dimension Date'[RunningMonthIndex]),'Dimension Date'[RunningMonthIndex] = theMonthBefore ),ALL('Dimension Date'))
+return 
+COUNTROWS(EXCEPT(theseCustomers,theseCustomerBeforeCurrentMonth))

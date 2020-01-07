@@ -1,0 +1,5 @@
+Total Quantity above average = 
+CALCULATE(
+    [Total quantity]
+    , 'Fact Sale'[Quantity] > [Average Quantity]
+)

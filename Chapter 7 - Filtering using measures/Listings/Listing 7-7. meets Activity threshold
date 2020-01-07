@@ -1,0 +1,2 @@
+meets Activity threshold = 
+IF([No Of Activities] > 20 , 1 , BLANK())

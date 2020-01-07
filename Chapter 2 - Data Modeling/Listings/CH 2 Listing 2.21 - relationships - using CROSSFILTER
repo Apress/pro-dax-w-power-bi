@@ -1,0 +1,5 @@
+Amount (leveraging cross filter direction both) = 
+CALCULATE(
+    SUM('Fact'[Amount])
+    , CROSSFILTER('Hobby'[Customer] , 'Customer'[Customer] , Both)
+)

@@ -1,0 +1,4 @@
+No of sales = 
+COUNTROWS(
+    RELATEDTABLE('Fact Sale')
+)

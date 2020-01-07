@@ -1,0 +1,33 @@
+Dimension Product - color = 
+var NoOfProductsToUse = [_No of Products To Use] --Maybe you will not receive the exact number as duplicate rows will be eliminated because of the usage of DISTINCT
+var NoOfProductsAvailable = COUNTROWS('Dimension Template')
+var ZeroPadding = CEILING(LOG10(NoOfProductsAvailable),1)
+
+/* ***************************************************************** */
+/* non hierarchy attributes */
+var NoOfroductColors = COUNTROWS('Product_Color')
+var path_Colors = CONCATENATEX(TOPN(NoOfroductColors,'Product_Color',[Attribute1_ID]),[Attribute1_Name],"|")
+
+var p0_productbasetable = DISTINCT(
+        SELECTCOLUMNS(
+            ADDCOLUMNS(
+                GENERATESERIES(1 , NoOfProductsToUse , 1)
+                , "Product ID" , RANDBETWEEN(1 , NoOfProductsAvailable)
+            )
+            , "Product ID" , [Product ID]
+            , "Product Name" , "P " & RIGHT(REPT("0" , ZeroPadding) &  [Product ID], LEN(NoOfProductsAvailable))
+        )
+    )
+var p2_productcolor = 
+ADDCOLUMNS(
+    p0_productbasetable
+    ,/* this is the product color */
+    "Color"
+        ,
+        var randomvalue = RANDBETWEEN(1,NoOfroductColors)
+        return
+        PATHITEM(path_Colors ,randomvalue, TEXT)
+)
+    
+return
+p2_productcolor

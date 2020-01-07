@@ -1,0 +1,9 @@
+vizAid fill color = 
+IF(HASONEVALUE('Sales Territory and other'[Sales Territory])
+    ,var theCurrentAxisValue = VALUES('Sales Territory and other'[Sales Territory])
+    return
+    IF(theCurrentAxisValue <> "other"
+		, "darkgrey"
+		, "darkred")
+    , "darkgrey"
+)

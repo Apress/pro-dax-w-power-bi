@@ -1,0 +1,41 @@
+Fact - with Dates = 
+var noOfAvailableProducts = COUNTROWS('Dimension Product - final')
+var ListOfAvaliableProducts = CONCATENATEX(VALUES('Dimension Product - final'[Product ID]),[Product ID],"|")
+
+var maxDate = MAX('Calendar table'[Date])
+var maxDaysAhead = [_No of days ahead]
+var maxDateRandom = maxdate - [_No of days ahead]
+var c0_base = FILTER(ALL('Calendar table'[Date]) , [Date] <= maxDateRandom)
+var NoOfAvailableDays = COUNTROWS(c0_base)
+var c0_base_path = CONCATENATEX(TOPN(NoOfAvailableDays , c0_base, [Date] , ASC) , [Date], "|") 
+
+var t_OrderID = 
+            
+                SELECTCOLUMNS(
+                    ADDCOLUMNS(
+                        GENERATESERIES(1 , [_No of Events] , 1 )
+                        , "Order date" , DATEVALUE(PATHITEM(c0_base_path , RANDBETWEEN(1 , NoOfAvailableDays), TEXT))
+                    )
+                    , "Order ID" , [Value]
+                    , "Order date" , [Order date]
+                    , "Delivery date" , [Order date] + RANDBETWEEN(1 , maxDaysAhead)    
+                )
+return
+ADDCOLUMNS(
+    GENERATE(
+        t_OrderID
+        ,var noofproductspertransaction = RANDBETWEEN(1 , [_No of Products per events (max)])
+        return
+        DISTINCT(
+            SELECTCOLUMNS(
+                ADDCOLUMNS(
+                    GENERATESERIES(1 ,  noofproductspertransaction)
+                    , "Product ID" , PATHITEM(ListOfAvaliableProducts , RANDBETWEEN(1 , PATHLENGTH(ListOfAvaliableProducts)) , INTEGER)
+                )
+                , "Orderline ID" , [Value]
+                , "Product ID" , [Product ID]
+            )
+        )
+    )
+    ,"Quantity" , RANDBETWEEN(1 , 10)
+)

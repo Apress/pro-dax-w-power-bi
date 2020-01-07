@@ -1,0 +1,7 @@
+vizAid Slicer titel dynamic = 
+var NoOfTopNSalesTeritory = [No of Sales Territories Value]
+return
+IF(NoOfTopNSalesTeritory = 1
+    ,"Just the Top One Sales Territory is chose"
+    ,"The Top " & NoOfTopNSalesTeritory & " are chosen"
+)

@@ -1,0 +1,9 @@
+﻿DEFINE VAR __DS0FilterTable = 
+  TREATAS({"100"}, 'Dimension Customer'[Customer Key])
+
+EVALUATE
+  SUMMARIZECOLUMNS(
+    __DS0FilterTable,
+    "SumTax_Amount", IGNORE(CALCULATE(SUM('Fact Sale'[Tax Amount])))
+  )
+

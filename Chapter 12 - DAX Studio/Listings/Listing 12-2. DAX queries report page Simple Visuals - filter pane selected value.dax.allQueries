@@ -1,0 +1,80 @@
+[
+  {
+    "StartTime": "2019-06-10T22:55:10.61+02:00",
+    "QueryType": "DAX",
+    "Duration": 7,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "DEFINE VAR __DS0FilterTable = \r\n  TREATAS({\"100\"}, 'Dimension Customer'[Customer Key])\r\n\r\nEVALUATE\r\n  SUMMARIZECOLUMNS(\r\n    __DS0FilterTable,\r\n    \"SumTax_Amount\", IGNORE(CALCULATE(SUM('Fact Sale'[Tax Amount])))\r\n  )",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "77F97FE9-EAC7-42B4-B18F-D3EBFE410675",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  },
+  {
+    "StartTime": "2019-06-10T22:55:10.61+02:00",
+    "QueryType": "DAX",
+    "Duration": 8,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "DEFINE VAR __DS0FilterTable = \r\n  TREATAS({\"100\"}, 'Dimension Customer'[Customer Key])\r\n\r\nEVALUATE\r\n  SUMMARIZECOLUMNS(\r\n    __DS0FilterTable,\r\n    \"SumTax_Rate\", IGNORE(CALCULATE(SUM('Fact Sale'[Tax Rate])))\r\n  )",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "ADE4EC65-0080-4441-9D6D-9945AEC7FEB9",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  },
+  {
+    "StartTime": "2019-06-10T22:55:10.58+02:00",
+    "QueryType": "DAX",
+    "Duration": 17,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "DEFINE VAR __DS0FilterTable = \r\n  TREATAS({\"100\"}, 'Dimension Customer'[Customer Key])\r\n\r\nEVALUATE\r\n  SUMMARIZECOLUMNS(\r\n    __DS0FilterTable,\r\n    \"SumProfit\", IGNORE(CALCULATE(SUM('Fact Sale'[Profit]))),\r\n    \"SumQuantity\", IGNORE(CALCULATE(SUM('Fact Sale'[Quantity]))),\r\n    \"SumTax_Amount\", IGNORE(CALCULATE(SUM('Fact Sale'[Tax Amount]))),\r\n    \"SumTax_Rate\", IGNORE(CALCULATE(SUM('Fact Sale'[Tax Rate])))\r\n  )",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "BE0F92EA-8A0B-4937-AE53-93A4BAC93710",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  },
+  {
+    "StartTime": "2019-06-10T22:55:10.58+02:00",
+    "QueryType": "DAX",
+    "Duration": 18,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "DEFINE VAR __DS0FilterTable = \r\n  TREATAS({\"100\"}, 'Dimension Customer'[Customer Key])\r\n\r\nEVALUATE\r\n  SUMMARIZECOLUMNS(\r\n    __DS0FilterTable,\r\n    \"SumQuantity\", IGNORE(CALCULATE(SUM('Fact Sale'[Quantity])))\r\n  )",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "5E3F74B5-925F-4481-842E-47A668F15E5B",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  },
+  {
+    "StartTime": "2019-06-10T22:55:10.47+02:00",
+    "QueryType": "DAX",
+    "Duration": 15,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "DEFINE VAR __DS0FilterTable = \r\n  TREATAS({\"100\"}, 'Dimension Customer'[Customer Key])\r\n\r\nEVALUATE\r\n  SUMMARIZECOLUMNS(\r\n    __DS0FilterTable,\r\n    \"SumQuantity\", IGNORE(CALCULATE(SUM('Fact Sale'[Quantity]))),\r\n    \"SumProfit\", IGNORE(CALCULATE(SUM('Fact Sale'[Profit]))),\r\n    \"SumTax_Amount\", IGNORE(CALCULATE(SUM('Fact Sale'[Tax Amount]))),\r\n    \"SumTax_Rate\", IGNORE(CALCULATE(SUM('Fact Sale'[Tax Rate])))\r\n  )",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "28B2298F-EEDB-4E7D-8FBC-E0E7FDF6FE0D",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  },
+  {
+    "StartTime": "2019-06-10T22:55:10.473333+02:00",
+    "QueryType": "DAX",
+    "Duration": 11,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "DEFINE VAR __DS0FilterTable = \r\n  TREATAS({\"100\"}, 'Dimension Customer'[Customer Key])\r\n\r\nEVALUATE\r\n  SUMMARIZECOLUMNS(\r\n    __DS0FilterTable,\r\n    \"SumProfit\", IGNORE(CALCULATE(SUM('Fact Sale'[Profit])))\r\n  )",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "2E217658-47AE-49D6-85EA-0935FC3F103E",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  }
+]

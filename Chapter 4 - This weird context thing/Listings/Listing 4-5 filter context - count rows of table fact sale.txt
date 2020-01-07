@@ -1,0 +1,2 @@
+_no of rows filtered in fact table = 
+COUNTROWS('Fact Sale')

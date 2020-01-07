@@ -1,0 +1,24 @@
+Fact simple = 
+var ProductsPath = CONCATENATEX(TOPN([_No of Products per transaction (max)], 'Dimension Product - hierarchy','Dimension Product - hierarchy'[Product ID],ASC),[Product ID],"|")
+return
+ADDCOLUMNS(
+    GENERATE(
+        SELECTCOLUMNS(
+                GENERATESERIES(1 , [_No of Events] , 1 )
+            , "Order ID" , [Value]
+        )
+        ,var noofproductspertransaction = RANDBETWEEN(1 , [_No of Products per transaction (max)])
+        return
+        DISTINCT(
+            SELECTCOLUMNS(
+                ADDCOLUMNS(
+                    GENERATESERIES(1 ,  noofproductspertransaction)
+                    , "Product ID" , PATHITEM(ProductsPath , RANDBETWEEN(1 , PATHLENGTH(ProductsPath)) , INTEGER)
+                )
+                , "Orderline ID" , [Value]
+                , "Product ID" , [Product ID]
+            )
+        )
+    )
+    ,"Quantity" , RANDBETWEEN(1 , 10)
+) 

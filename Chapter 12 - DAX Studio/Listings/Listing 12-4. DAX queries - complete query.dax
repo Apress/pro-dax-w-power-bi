@@ -1,0 +1,38 @@
+﻿DEFINE 
+
+---- MODEL MEASURES BEGIN ----
+MEASURE 'Fact Sale'[Quantity - All Sales Territories] = CALCULATE(
+	[Total Quantity]
+    ,ALL('Dimension City'[Sales Territory])
+)
+MEASURE 'Fact Sale'[Total Quantity] = CALCULATE(SUM('Fact Sale'[Quantity]) )
+---- MODEL MEASURES END ----
+
+MEASURE 'Fact Sale'[quantity divided by all] = DIVIDE([Total Quantity], [Quantity - All Sales Territories], BLANK())
+
+
+VAR __DS0FilterTable = 
+  FILTER(
+    KEEPFILTERS(VALUES('Dimension City'[Sales Territory])),
+    'Dimension City'[Sales Territory] <> "Southeast"
+  )
+
+EVALUATE
+  TOPN(
+    502,
+    SUMMARIZECOLUMNS(
+      ROLLUPADDISSUBTOTAL('Dimension City'[Sales Territory], "IsGrandTotalRowTotal"),
+      __DS0FilterTable,
+      "Total_Quantity", 'Fact Sale'[Total Quantity],
+      "quantity_divided_by_all", 'Fact Sale'[quantity divided by all],
+      "quantity_divided_by_allselected", 'Fact Sale'[quantity divided by allselected],
+      "quantity_divided_by_values", 'Fact Sale'[quantity divided by values]
+    ),
+    [IsGrandTotalRowTotal],
+    0,
+    'Dimension City'[Sales Territory],
+    1
+  )
+
+ORDER BY
+  [IsGrandTotalRowTotal] DESC, 'Dimension City'[Sales Territory]

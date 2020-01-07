@@ -1,0 +1,13 @@
+quantity ytd a little more final = 
+CALCULATE(
+    SUM('Fact v_starschema_asonetable'[Quantity])
+    ,FILTER(
+        ALL(
+            'Fact v_starschema_asonetable'[Calendar Month Number]
+            ,'Fact v_starschema_asonetable'[Calendar Month Label]
+            ,'Fact v_starschema_asonetable'[Date]
+        )
+        ,'Fact v_starschema_asonetable'[Calendar Month Number] <= MAX('Fact v_starschema_asonetable'[Calendar Month Number])
+        && 'Fact v_starschema_asonetable'[Date] <= MAX('Fact v_starschema_asonetable'[Date])
+    )
+)

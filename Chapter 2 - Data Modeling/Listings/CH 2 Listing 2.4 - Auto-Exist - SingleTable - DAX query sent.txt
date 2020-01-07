@@ -1,0 +1,15 @@
+DEFINE
+  VAR __DS0FilterTable = 
+    TREATAS({2015}, 'Fact v_sales_singletable'[Calendar Year])
+
+  VAR __DS0FilterTable2 = 
+    TREATAS({"100L",
+      "10m",
+      "250g"}, 'Fact v_sales_singletable'[Size])
+
+EVALUATE
+  SUMMARIZECOLUMNS(
+    __DS0FilterTable,
+    __DS0FilterTable2,
+    "distinct___of_sizes_all_time", IGNORE('Fact v_sales_singletable'[distinct # of sizes all time])
+  )

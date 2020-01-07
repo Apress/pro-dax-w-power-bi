@@ -1,0 +1,5 @@
+violates rule - counting customer = 
+SUMX(
+    VALUES('Dimension Customer'[Customer Key])
+    , IF([meets Activity threshold v2] = 0 , 1 , BLANK())
+)

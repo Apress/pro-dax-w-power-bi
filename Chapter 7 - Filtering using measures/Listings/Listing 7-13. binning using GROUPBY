@@ -1,0 +1,31 @@
+binning using GROUPBY = 
+var abt = 
+    GROUPBY(
+        ADDCOLUMNS(
+            VALUES('Fact Sale'[Customer Key])
+            ,"NoOfActivities",[No Of Activities]
+        )
+        ,[NoOfActivities]
+        ,"SumOf",SUMX(CURRENTGROUP(),[NoOfActivities])
+        
+    )
+return
+SUMX(
+    VALUES('bins')
+    ,
+    var binMin = 'bins'[min]
+    var binMax = 
+        IF(
+            NOT(ISBLANK('bins'[max]))
+            ,'bins'[max]
+            ,MAXX(abt,[NoOfActivities])
+        )
+    return
+    SUMX(
+        FILTER(
+            abt
+            ,[NoOfActivities] >= binMin && [NoOfActivities] <= binMax
+        )
+        ,[SumOf]
+    )
+)

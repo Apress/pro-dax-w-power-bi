@@ -1,0 +1,8 @@
+Total Quantity above average v2 = 
+CALCULATE(
+    [Total quantity]
+    ,FILTER(
+        'Fact Sale' 
+        , 'Fact Sale'[Quantity] > [Average Quantity]
+    )
+)

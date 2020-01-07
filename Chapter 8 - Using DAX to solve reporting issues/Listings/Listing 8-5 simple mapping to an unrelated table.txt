@@ -1,0 +1,8 @@
+_simple mapping to the unrelated table = 
+SUMX(
+    VALUES('Sales Territory and other - unrelated'[Sales Territory])
+    , 
+    var SalesTerritoryFromUnrelated = 'Sales Territory and other - unrelated'[Sales Territory]
+    return
+    CALCULATE(SUM('Fact Sale'[Quantity]), 'Dimension City'[Sales Territory] = SalesTerritoryFromUnrelated)
+) 

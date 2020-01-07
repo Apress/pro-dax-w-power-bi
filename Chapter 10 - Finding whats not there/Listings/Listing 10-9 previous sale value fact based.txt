@@ -1,0 +1,2 @@
+previous sale value - fact based = 
+SUM('Fact Sale - Previous Value'[prevquantity])

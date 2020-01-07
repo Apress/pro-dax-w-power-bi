@@ -1,0 +1,52 @@
+State of Consistency = 
+var DateMax = MAX('Dimension Date'[Date])
+// end of previous month
+var DateEndOfPrevMonth = 
+    EOMONTH(
+        DATE(YEAR(DateMax) , MONTH(DateMax) - 1, 1) ,0)
+// previous 6 months
+var DateStartOfRange = 
+    DATE(YEAR(DateMax) , MONTH(DateMax) - 6, 1)
+var filtertableconsistencyrange = 
+    DATESBETWEEN(
+        'Dimension Date'[Date] 
+        , DateStartOfRange 
+        , DateEndOfPrevMonth
+    ) 
+var consistencymayfade = 
+    IF(
+        COUNTROWS(
+            CALCULATETABLE(
+                SUMMARIZE(
+                    'Fact Sale'
+                    , 'Dimension Date'[Calendar Month Number]
+                )
+                , filtertableconsistencyrange
+            )
+        )
+        < 4 , 1 , BLANK()
+    )
+// previous 2 months
+var DateStartOfRangeEndangerd = 
+    DATE(YEAR(DateMax) , MONTH(DateMax) - 2, 1)
+var filtertableconsistencyendangered = 
+    DATESBETWEEN(
+        'Dimension Date'[Date] 
+        , DateStartOfRangeEndangerd 
+        , DateEndOfPrevMonth
+    )
+var consistencyendangerd = 
+    IF(
+        COUNTROWS(
+            CALCULATETABLE(
+                SUMMARIZE(
+                    'Fact Sale'
+                    , 'Dimension Date'[Calendar Month Number]
+                )
+                , filtertableconsistencyendangered
+            )
+        )
+        < 2 , 1 , BLANK()
+    )
+return
+IF(consistencyendangerd = 1 , 3 , IF(consistencymayfade = 2 , 2 , 1))

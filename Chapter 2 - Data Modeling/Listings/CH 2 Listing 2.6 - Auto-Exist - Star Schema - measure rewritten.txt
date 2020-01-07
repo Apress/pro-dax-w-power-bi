@@ -1,0 +1,5 @@
+star distinct # of sizes all time = 
+CALCULATE(
+    [distinct # of sizes]
+    ,ALL('Calendar Year'[Calendar Year])
+)

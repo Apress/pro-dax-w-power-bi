@@ -1,0 +1,2 @@
+distinct # of sizes = 
+DISTINCTCOUNT('Fact v_sales_singletable'[Size])

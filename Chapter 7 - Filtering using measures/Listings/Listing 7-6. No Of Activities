@@ -1,0 +1,4 @@
+No Of Activities = 
+var NoOfActivities = DISTINCTCOUNT('Fact Sale'[Sale Key])
+return
+IF(ISBLANK(NoOfActivities),0,NoOfActivities)

@@ -1,0 +1,54 @@
+[
+  {
+    "StartTime": "2019-06-11T01:52:32.92+02:00",
+    "QueryType": "DAX",
+    "Duration": 15,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "DEFINE VAR __DS0FilterTable = \r\n  FILTER(\r\n    KEEPFILTERS(VALUES('Dimension City'[Sales Territory])),\r\n    AND(\r\n      'Dimension City'[Sales Territory] <> \"Southeast\",\r\n      'Dimension City'[Sales Territory] <> \"Southwest\"\r\n    )\r\n  )\r\n\r\nEVALUATE\r\n  SUMMARIZECOLUMNS(\r\n    __DS0FilterTable,\r\n    \"Quantity___All_Sales_Territories\", IGNORE('Fact Sale'[Quantity - All Sales Territories])\r\n  )",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "52E47A10-BE8A-487F-813E-2B7BD597CA0F",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  },
+  {
+    "StartTime": "2019-06-11T01:52:32.923333+02:00",
+    "QueryType": "DAX",
+    "Duration": 12,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "DEFINE VAR __DS0FilterTable = \r\n  FILTER(\r\n    KEEPFILTERS(VALUES('Dimension City'[Sales Territory])),\r\n    AND(\r\n      'Dimension City'[Sales Territory] <> \"Southeast\",\r\n      'Dimension City'[Sales Territory] <> \"Southwest\"\r\n    )\r\n  )\r\n\r\nEVALUATE\r\n  SUMMARIZECOLUMNS(\r\n    __DS0FilterTable,\r\n    \"Quantity___Values_Sales_Territories_\", IGNORE('Fact Sale'[Quantity - Values(Sales Territories)])\r\n  )",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "2BBEF349-0799-45C6-B52C-DA0D55D10F2E",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  },
+  {
+    "StartTime": "2019-06-11T01:52:32.78+02:00",
+    "QueryType": "DAX",
+    "Duration": 66,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "DEFINE VAR __DS0FilterTable = \r\n  FILTER(\r\n    KEEPFILTERS(VALUES('Dimension City'[Sales Territory])),\r\n    AND(\r\n      'Dimension City'[Sales Territory] <> \"Southeast\",\r\n      'Dimension City'[Sales Territory] <> \"Southwest\"\r\n    )\r\n  )\r\n\r\nEVALUATE\r\n  TOPN(\r\n    502,\r\n    SUMMARIZECOLUMNS(\r\n      ROLLUPADDISSUBTOTAL('Dimension City'[Sales Territory], \"IsGrandTotalRowTotal\"),\r\n      __DS0FilterTable,\r\n      \"Total_Quantity\", 'Fact Sale'[Total Quantity],\r\n      \"quantity_divided_by_all\", 'Fact Sale'[quantity divided by all],\r\n      \"quantity_divided_by_allselected\", 'Fact Sale'[quantity divided by allselected],\r\n      \"quantity_divided_by_values\", 'Fact Sale'[quantity divided by values]\r\n    ),\r\n    [IsGrandTotalRowTotal],\r\n    0,\r\n    'Dimension City'[Sales Territory],\r\n    1\r\n  )\r\n\r\nORDER BY\r\n  [IsGrandTotalRowTotal] DESC, 'Dimension City'[Sales Territory]",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "B4C03FDD-D28E-49DE-9084-C6600A456E2E",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  },
+  {
+    "StartTime": "2019-06-11T01:52:32.78+02:00",
+    "QueryType": "DAX",
+    "Duration": 17,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "DEFINE VAR __DS0FilterTable = \r\n  FILTER(\r\n    KEEPFILTERS(VALUES('Dimension City'[Sales Territory])),\r\n    AND(\r\n      'Dimension City'[Sales Territory] <> \"Southeast\",\r\n      'Dimension City'[Sales Territory] <> \"Southwest\"\r\n    )\r\n  )\r\n\r\nEVALUATE\r\n  SUMMARIZECOLUMNS(\r\n    __DS0FilterTable,\r\n    \"Quantity___ALLSELECTED_Sales_Territory_\", IGNORE('Fact Sale'[Quantity - ALLSELECTED(Sales Territory)])\r\n  )",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "0C01A4E5-9C1B-48E0-81C4-7F061372FEEA",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  }
+]

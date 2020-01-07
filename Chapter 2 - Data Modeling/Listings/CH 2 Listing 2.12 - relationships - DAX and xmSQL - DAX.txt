@@ -1,0 +1,13 @@
+DEFINE
+  VAR __DS0FilterTable = 
+    TREATAS({"CY2014"}, 'Dimension Date'[Calendar Year Label])
+
+  VAR __DS0FilterTable2 = 
+    TREATAS({"CY2014-Jul"}, 'Dimension Date'[Calendar Month Label])
+
+EVALUATE
+  SUMMARIZECOLUMNS(
+    __DS0FilterTable,
+    __DS0FilterTable2,
+    "v_no_of_rows_filtered_in_fact_table", IGNORE('Fact Sale'[_no of rows filtered in fact table])
+  )

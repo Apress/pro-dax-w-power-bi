@@ -1,0 +1,93 @@
+[
+  {
+    "StartTime": "2019-06-10T22:20:14.18+02:00",
+    "QueryType": "DAX",
+    "Duration": 7,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "EVALUATE\r\n  ROW(\r\n    \"SumProfit\", CALCULATE(SUM('Fact Sale'[Profit])),\r\n    \"SumQuantity\", CALCULATE(SUM('Fact Sale'[Quantity])),\r\n    \"SumTax_Amount\", CALCULATE(SUM('Fact Sale'[Tax Amount])),\r\n    \"SumTax_Rate\", CALCULATE(SUM('Fact Sale'[Tax Rate]))\r\n  )",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "C713F899-6623-456A-ACCD-CDAA4EB28C18",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  },
+  {
+    "StartTime": "2019-06-10T22:20:14.163333+02:00",
+    "QueryType": "DAX",
+    "Duration": 4,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "EVALUATE\r\n  TOPN(\r\n    101,\r\n    VALUES('Dimension Customer'[Customer Key]),\r\n    'Dimension Customer'[Customer Key],\r\n    1\r\n  )\r\n\r\nORDER BY\r\n  'Dimension Customer'[Customer Key]",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "28B06D4B-75D0-437F-9B1C-3FF8B546F957",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  },
+  {
+    "StartTime": "2019-06-10T22:20:14.083333+02:00",
+    "QueryType": "DAX",
+    "Duration": 6,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "EVALUATE\r\n  ROW(\r\n    \"SumQuantity\", CALCULATE(SUM('Fact Sale'[Quantity]))\r\n  )",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "B5320736-C41D-4079-AEBE-ECB48573A5E0",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  },
+  {
+    "StartTime": "2019-06-10T22:20:14.076667+02:00",
+    "QueryType": "DAX",
+    "Duration": 4,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "EVALUATE\r\n  ROW(\r\n    \"SumTax_Rate\", CALCULATE(SUM('Fact Sale'[Tax Rate]))\r\n  )",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "1780A018-1936-4DE4-BD16-EFC8803051E8",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  },
+  {
+    "StartTime": "2019-06-10T22:20:14.063333+02:00",
+    "QueryType": "DAX",
+    "Duration": 3,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "EVALUATE\r\n  ROW(\r\n    \"SumTax_Amount\", CALCULATE(SUM('Fact Sale'[Tax Amount]))\r\n  )",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "81B01378-F10A-447B-BFC0-8D0073DF25ED",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  },
+  {
+    "StartTime": "2019-06-10T22:20:14.053333+02:00",
+    "QueryType": "DAX",
+    "Duration": 6,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "EVALUATE\r\n  ROW(\r\n    \"SumProfit\", CALCULATE(SUM('Fact Sale'[Profit]))\r\n  )",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "F74356EE-1EAF-43DF-AC63-66C933BEDA80",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  },
+  {
+    "StartTime": "2019-06-10T22:20:13.986667+02:00",
+    "QueryType": "DAX",
+    "Duration": 9,
+    "Username": "tmart",
+    "DatabaseName": "CH12 - a simple report",
+    "Query": "EVALUATE\r\n  ROW(\r\n    \"SumQuantity\", CALCULATE(SUM('Fact Sale'[Quantity])),\r\n    \"SumProfit\", CALCULATE(SUM('Fact Sale'[Profit])),\r\n    \"SumTax_Amount\", CALCULATE(SUM('Fact Sale'[Tax Amount])),\r\n    \"SumTax_Rate\", CALCULATE(SUM('Fact Sale'[Tax Rate]))\r\n  )",
+    "EndTime": "0001-01-01T00:00:00",
+    "RequestID": "48FF843F-1CDA-47C0-8970-AC9E2A6CAC94",
+    "AggregationMatchCount": 0,
+    "AggregationMissCount": 0,
+    "AggregationStatus": "n/a"
+  }
+]

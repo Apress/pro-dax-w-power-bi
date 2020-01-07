@@ -1,0 +1,5 @@
+Even a simple filter is a table =
+CALCULATE(
+    SUM('Fact Sale'[Quantity])
+    ,'Dimension City'[City] = "Abbottsburg"
+)

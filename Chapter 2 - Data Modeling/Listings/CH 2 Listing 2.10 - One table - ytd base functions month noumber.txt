@@ -1,0 +1,11 @@
+quantity ytd = 
+CALCULATE(
+    SUM('Fact v_starschema_asonetable'[Quantity])
+    ,FILTER(
+        ALL(
+			'Fact v_starschema_asonetable'[Calendar Month Number]
+			,'
+		) 
+        ,'Fact v_starschema_asonetable'[Calendar Month Number] <= MAX('Fact v_starschema_asonetable'[Calendar Month Number])
+    )
+)

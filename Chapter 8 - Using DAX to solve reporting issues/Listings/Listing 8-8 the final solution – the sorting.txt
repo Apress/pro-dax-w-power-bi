@@ -1,0 +1,31 @@
+vizAid sort rank = 
+var NoOfParameter = [No of Sales Territories Value]
+var tableSelectedSalesTerritories = VALUES('Dimension City'[Sales Territory])
+var tableWithRanks = 
+    FILTER(
+        ADDCOLUMNS(
+            tableSelectedSalesTerritories
+             ,"rank",[_Rank]
+        )
+        ,[rank] <= NoOfParameter
+    )
+ 
+var TableToSort = 
+    UNION(
+        SELECTCOLUMNS(
+            tableWithRanks
+            ,"axis", [Sales Territory]
+            ,"rank", [rank]
+        )
+        ,ROW("axis", "Other", "rank", IF(COUNTROWS(tableSelectedSalesTerritories) > NoOfParameter, NoOfParameter + 1, BLANK()))
+    )
+
+return
+
+sumx(
+    FILTER(
+        TableToSort
+        ,[axis] in VALUES('Sales Territory and other - unrelated'[Sales Territory])
+    )
+    ,[rank]
+)

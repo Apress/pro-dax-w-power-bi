@@ -1,0 +1,43 @@
+_dynamic content SUMX final = 
+var NoOfParameter = [No of Sales Territories Value]
+var SelectedSalesTerritories = VALUES('Dimension City'[Sales Territory])
+var tableWithRank = 
+    FILTER(
+        ADDCOLUMNS(
+            SelectedSalesTerritories
+            , "rank",[_Rank]
+        )
+        , [rank] <= NoOfParameter
+    )
+var topNTable = 
+    SELECTCOLUMNS(
+        tableWithRank
+        , "axisvalue" , [Sales Territory]
+    )
+
+var tableOther = EXCEPT(DISTINCT(SelectedSalesTerritories),topNTable)
+var measureValueOther = CALCULATE([Measure Table SelectedValue],tableOther)
+
+var tableToIterate =
+    ADDCOLUMNS(
+        UNION(
+            INTERSECT(DISTINCT('Sales Territory and other - unrelated') , topNTable)
+            , ROW("axisvalue" , "Other")
+        )
+        , "theValue"
+        , var thisCategory = [Sales Territory]
+        return
+        IF(thisCategory <> "Other"
+            , CALCULATE([Measure Table SelectedValue] , 'Dimension City'[Sales Territory] = thisCategory)
+            , measureValueOther
+        )
+    )
+
+return
+SUMX(
+    FILTER(
+        tableToIterate
+        , 'Sales Territory and other - unrelated'[Sales Territory] in VALUES('Sales Territory and other - unrelated'[Sales Territory])
+    )
+    , [theValue]
+)

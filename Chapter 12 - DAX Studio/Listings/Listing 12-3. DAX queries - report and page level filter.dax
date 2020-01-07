@@ -1,0 +1,79 @@
+﻿
+// DAX query against Database: CH12 - a simple report 
+DEFINE VAR __DS0FilterTable = 
+  FILTER(
+    KEEPFILTERS(VALUES('Dimension City'[Sales Territory])),
+    AND(
+      'Dimension City'[Sales Territory] <> "Southeast",
+      'Dimension City'[Sales Territory] <> "Southwest"
+    )
+  )
+
+EVALUATE
+  SUMMARIZECOLUMNS(
+    __DS0FilterTable,
+    "Quantity___All_Sales_Territories", IGNORE('Fact Sale'[Quantity - All Sales Territories])
+  )
+
+// DAX query against Database: CH12 - a simple report 
+DEFINE VAR __DS0FilterTable = 
+  FILTER(
+    KEEPFILTERS(VALUES('Dimension City'[Sales Territory])),
+    AND(
+      'Dimension City'[Sales Territory] <> "Southeast",
+      'Dimension City'[Sales Territory] <> "Southwest"
+    )
+  )
+
+EVALUATE
+  SUMMARIZECOLUMNS(
+    __DS0FilterTable,
+    "Quantity___Values_Sales_Territories_", IGNORE('Fact Sale'[Quantity - Values(Sales Territories)])
+  )
+
+// DAX query against Database: CH12 - a simple report 
+DEFINE VAR __DS0FilterTable = 
+  FILTER(
+    KEEPFILTERS(VALUES('Dimension City'[Sales Territory])),
+    AND(
+      'Dimension City'[Sales Territory] <> "Southeast",
+      'Dimension City'[Sales Territory] <> "Southwest"
+    )
+  )
+
+EVALUATE
+  TOPN(
+    502,
+    SUMMARIZECOLUMNS(
+      ROLLUPADDISSUBTOTAL('Dimension City'[Sales Territory], "IsGrandTotalRowTotal"),
+      __DS0FilterTable,
+      "Total_Quantity", 'Fact Sale'[Total Quantity],
+      "quantity_divided_by_all", 'Fact Sale'[quantity divided by all],
+      "quantity_divided_by_allselected", 'Fact Sale'[quantity divided by allselected],
+      "quantity_divided_by_values", 'Fact Sale'[quantity divided by values]
+    ),
+    [IsGrandTotalRowTotal],
+    0,
+    'Dimension City'[Sales Territory],
+    1
+  )
+
+ORDER BY
+  [IsGrandTotalRowTotal] DESC, 'Dimension City'[Sales Territory]
+
+// DAX query against Database: CH12 - a simple report 
+DEFINE VAR __DS0FilterTable = 
+  FILTER(
+    KEEPFILTERS(VALUES('Dimension City'[Sales Territory])),
+    AND(
+      'Dimension City'[Sales Territory] <> "Southeast",
+      'Dimension City'[Sales Territory] <> "Southwest"
+    )
+  )
+
+EVALUATE
+  SUMMARIZECOLUMNS(
+    __DS0FilterTable,
+    "Quantity___ALLSELECTED_Sales_Territory_", IGNORE('Fact Sale'[Quantity - ALLSELECTED(Sales Territory)])
+  )
+

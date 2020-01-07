@@ -1,0 +1,9 @@
+Calendar table = 
+    ADDCOLUMNS(
+        CALENDAR(
+            DATE(2018 , 1 , 1)
+            , DATE(2019 , 12 , 31)
+        )
+        , "Year-Month" , FORMAT([Date] , "YYYYMM")
+        , "Year", FORMAT([Date] , "YYYY")
+    )

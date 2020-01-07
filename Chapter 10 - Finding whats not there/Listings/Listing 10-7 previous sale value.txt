@@ -1,0 +1,38 @@
+previous sale value = 
+var t = 
+    ADDCOLUMNS(
+        FILTER(
+            SUMMARIZE(
+                'Fact Sale'
+                , 'Dimension Customer'[Customer Key]
+                , 'Fact Sale'[Sale Key]
+            )
+            , [Customer Key] <> 0 // customer key 0 (unknown) is not considered
+        )
+        , "thePrevQuantity" ,
+            var currentSaleKey = [Sale Key]
+            var prevsalekey = 
+                MAXX(               
+                    FILTER(
+                        CALCULATETABLE(
+                            VALUES('Fact Sale'[Sale Key])
+                            , ALL('Fact Sale'[Sale Key])
+                        ) 
+                        , 'Fact Sale'[Sale Key] < currentSaleKey
+                    )
+                    , 'Fact Sale'[Sale Key]
+                )
+            var prevQuantity = 
+                CALCULATE(
+                    [Total Quantity] 
+                , 'Fact Sale'[Sale Key] =  prevsalekey
+                )
+
+            return prevQuantity
+    )
+return
+
+SUMX(
+	t
+	, [thePrevQuantity]
+)

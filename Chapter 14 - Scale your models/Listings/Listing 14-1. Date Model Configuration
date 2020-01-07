@@ -1,0 +1,7 @@
+Sample Data Configuration = 
+UNION(
+    ROW("Parameter Name" , "No Of Products to use", "Parameter Value" , 1000) 
+    , ROW("Parameter Name" , "No Of Events", "Parameter Value" , 10)
+    , ROW("Parameter Name" , "No of Products per events (max)" , "Paramter Value" , 5)
+    , ROW("Parameter Name" , "No of days ahead" , "Paramter Value" , 10) 
+)

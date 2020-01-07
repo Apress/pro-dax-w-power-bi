@@ -1,0 +1,16 @@
+SUMX GroupBy Filtered = 
+SUMX(    
+    FILTER(    
+        ADDCOLUMNS(
+            GROUPBY(
+                'Fact Sale'
+                , 'Dimension City'[Sales Territory]
+                , 'Dimension City'[State Province]
+            )
+            , "q" , [Total quantity]
+            , "r" , [_r]
+        )
+        , [r] <= 2
+    )
+    , [q]
+)

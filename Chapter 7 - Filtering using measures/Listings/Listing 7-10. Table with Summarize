@@ -1,0 +1,10 @@
+Table with Summarize = 
+ADDCOLUMNS(
+    SUMMARIZE(
+        'Fact Sale'
+        , 'Dimension City'[Sales Territory]
+        , "sum inside" , SUM('Fact Sale'[Quantity])
+    )
+    , "sum outside" , SUM('Fact Sale'[Quantity])
+    , "using a measure" , [Total quantity]
+)

@@ -1,0 +1,14 @@
+_r = 
+rankx(
+    CALCULATETABLE(
+        SUMMARIZE(
+            'Fact Sale'
+            , 'Dimension City'[Sales Territory]
+            , 'Dimension City'[State Province]
+        )
+        , ALL('Dimension City'[State Province])
+    )
+    , [Total quantity]
+    , 
+    , DESC
+)

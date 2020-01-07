@@ -1,0 +1,6 @@
+EVALUATE
+CALCULATETABLE(
+  SUMMARIZE('Fact v_sales_singletable','Fact v_sales_singletable'[Calendar Year],'Fact v_sales_singletable'[Size])
+  ,TREATAS({2015}, 'Fact v_sales_singletable'[Calendar Year])
+  ,TREATAS({"100L","10m","250g"}, 'Fact v_sales_singletable'[Size])  
+)

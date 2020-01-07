@@ -1,0 +1,10 @@
+meets Activity threshold v2 = 
+var NoOfActivities = [No Of Activities]
+var TotalQuantity = [Total quantity]
+return
+IF(
+    AND(
+        TotalQuantity < 1500
+        , TotalQuantity < 10
+    )  
+    , 1 , 0 )

@@ -1,0 +1,1 @@
+vizAid Slicer titel = "This is the title of a slicer"

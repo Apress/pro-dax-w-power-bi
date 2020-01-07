@@ -1,0 +1,8 @@
+Sales for 250g items = 
+SUMX(
+    FILTER(
+        'Fact Sale'
+        ,RELATED('Dimension Stock Item'[Size]) = "250g"
+    )
+    ,'Fact Sale'[Quantity] * RELATED('Dimension Stock Item'[Unit Price])
+)

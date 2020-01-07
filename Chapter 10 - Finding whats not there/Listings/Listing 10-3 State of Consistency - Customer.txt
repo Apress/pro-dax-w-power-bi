@@ -1,0 +1,5 @@
+State of Consistency - Customer = 
+MAXX(
+    VALUES('Dimension Customer'[Customer Key])
+    , [State of Consistency]
+)

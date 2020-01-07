@@ -1,0 +1,5 @@
+qunatity ytd time intelligence = 
+CALCULATE(
+    SUM('Fact v_starschema_asonetable'[Quantity])
+    ,DATESYTD('Fact v_starschema_asonetable'[Date])
+) 

@@ -1,0 +1,7 @@
+EVALUATE
+SUMMARIZECOLUMNS(
+	'Dimension City'[Sales Territory]
+	,'Dimension Stock Item'[Color]
+	,"No of rows"
+	,COUNTROWS('Fact Sale')
+)

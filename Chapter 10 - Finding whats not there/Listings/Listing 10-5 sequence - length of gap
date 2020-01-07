@@ -1,0 +1,35 @@
+SEQ - length of gap = 
+var maxRunningMonthIndex = 
+    CALCULATE(
+        MAX('Dimension Date'[RunningMonthIndex])
+        , ALL('Dimension Date')
+    )
+var abt =
+    ADDCOLUMNS(
+        ADDCOLUMNS(
+            SUMMARIZE(
+                'Fact Sale'
+                ,'Dimension Customer'[Customer Key]
+                ,'Dimension Date'[RunningMonthIndex]
+            )
+            , "nxtMonth" , 
+                var thisRunningMonth = 'Dimension Date'[RunningMonthIndex]
+                var nxtRunningMonthFromFact = 
+                    CALCULATE(
+                        FIRSTNONBLANK('Dimension Date'[RunningMonthIndex],[Total quantity])
+                        , ALL('Dimension Date')
+                        , 'Dimension Date'[RunningMonthIndex] > thisRunningMonth
+                    )
+                return
+                IF(NOT(ISBLANK(nxtRunningMonthFromFact)) , nxtRunningMonthFromFact , maxRunningMonthIndex)
+        )
+        ,"length of gap", 
+            var l = [nxtMonth]-[RunningMonthIndex] - 1
+            return
+            IF(l = 0 , BLANK() , l)
+    )
+return
+SUMX(
+    abt
+    , [length of gap]
+)

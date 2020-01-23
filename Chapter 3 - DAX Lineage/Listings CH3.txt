@@ -1,0 +1,210 @@
+EVALUATE 'Dates'
+
+-- Listing 3-1
+My Calculated Measure = 
+VAR MyTableExpression1 = 
+	SUMMARIZECOLUMNS(
+		'Dimension Date'[Calendar Month Label] ,
+		'Dimension Date'[Calendar Year Label] ,
+		"Sum of Quantity" , 
+		SUM('Fact Sale'[Quantity])
+		)
+RETURN 
+	COUNTROWS(MyTableExpression1)
+
+-- Listing 3-2
+EVALUATE
+
+VAR MyTableExpression1 = 
+	SUMMARIZECOLUMNS(
+		'Dimension Date'[Calendar Month Label] ,
+		"Sum of Quantity" , 
+		SUM('Fact Sale'[Quantity])
+		)
+
+VAR myTableExpression2 = 
+	TOPN(
+		5,
+		MyTableExpression1,
+		[Sum of Quantity]
+		)
+
+RETURN 
+	CALCULATETABLE(
+		'Dimension Date',
+		myTableExpression2
+		)
+
+-- Listing 3-3
+SELECT
+	[Dimension Date (12)].[Calendar Month Label (130)] 
+		AS [Dimension Date (12)$Calendar Month Label (130)],
+	SUM([Fact Sale (1113)].[Quantity (1150)]) AS [$Measure0]
+FROM [Fact Sale (1113)]
+	LEFT OUTER JOIN [Dimension Date (12)] 
+		ON [Fact Sale (1113)].[Invoice Date Key (1130)]
+			=[Dimension Date (12)].[Date (117)];
+
+-- Listing 3-4
+SELECT
+	<... all fourteen column names removed for brevity ...>
+FROM [Dimension Date (12)]
+WHERE
+	[Dimension Date (12)].[Calendar Month Label (130)] IN 
+	(
+		'CY2016-Apr', 
+		'CY2016-Mar', 
+		'CY2015-Apr', 
+		'CY2016-May', 
+		'CY2015-Jul'
+	);
+
+-- Listing 3-5
+EVALUATE
+
+VAR MyTableExpression1 = 
+    SUMMARIZECOLUMNS(
+        'Dimension Date'[Calendar Month Label] ,
+        "Sum of Quantity" , 
+        SUM('Fact Sale'[Quantity])
+        )
+
+VAR myTableExpression2 =
+    SELECTCOLUMNS(
+        TOPN(
+            5,
+            MyTableExpression1,
+            [Sum of Quantity]
+            ),
+        "My New Columnname",
+        [Calendar Month Label] 
+        )
+
+RETURN 
+    CALCULATETABLE(
+        'Dimension Date',
+        myTableExpression2
+        )
+
+
+-- Listing 3-6
+EVALUATE
+	ADDCOLUMNS(
+		VALUES('Dimension Date'[Calendar Year]) ,
+		"Sum of Quantity" ,
+		CALCULATE(
+			SUM('Fact Sale'[Quantity])
+			)
+		)
+
+
+-- Listing 3-7
+EVALUATE
+	ADDCOLUMNS(
+		SELECTCOLUMNS(
+			VALUES('Dimension Date'[Calendar Year]) ,
+			"Calendar Year" ,
+			[Calendar Year] + 0
+			),
+		"Sum of Quanity" ,
+		CALCULATE(
+			SUM('Fact Sale'[Quantity])
+			)
+		)
+
+
+-- Listing 3-8
+DEFINE 
+	VAR MyYearFilter = 
+		DATATABLE(
+			"Year" , INTEGER , 
+			{
+				{2015},
+				{2016}
+			}
+		)
+
+	MEASURE 'Fact Sale'[Sum of Quantity] = 
+		SUM('Fact Sale'[Quantity])
+
+EVALUATE 
+	CALCULATETABLE(
+		SUMMARIZECOLUMNS(
+			'Dimension Date'[Calendar Year],
+			"Sum of Quantity",
+			[Sum of Quantity]
+			),
+		MyYearFilter
+		)
+
+
+-- Listing 3-9
+VAR MyYearFilter = 
+		FILTER(
+			VALUES('Dimension Date'[Calendar Year]) ,
+			[Calendar Year] IN {2015,2016}
+			)
+
+-- Listing 3-10
+EVALUATE 
+	CALCULATETABLE(
+		SUMMARIZECOLUMNS(
+			'Dimension Date'[Calendar Year],
+			"Sum of Quantity",
+			[Sum of Quantity]
+			),
+		TREATAS( 
+			MyYearFilter , 
+			'Dimension Date'[Calendar Year] 
+			)
+		)
+
+-- Listing 3-11
+	TREATAS(
+		{{2015},{2016}},
+		'Dimension Date'[Calendar Year]
+		)
+
+-- Listing 3-12
+EVALUATE
+	ADDCOLUMNS(
+		TREATAS(
+			SELECTCOLUMNS(
+				VALUES('Dimension Date'[Calendar Year]) ,
+				"Calendar Year" ,
+				[Calendar Year] + 0
+				),
+			'Dimension Date'[Calendar Year]
+			)	,
+		"Sum of Quantity" ,
+		CALCULATE(
+			SUM('Fact Sale'[Quantity])
+			)
+		)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

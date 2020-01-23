@@ -1,0 +1,204 @@
+-- Listing 5-1
+COUNTROWS(
+	FILTER(
+		'Fact Sale',
+		'Fact Sale'[Quantity] = 3
+		)
+	)
+
+-- Listing 5-2
+CALCULATE(
+	COUNTROWS('Fact Sale'),
+	'Fact Sale'[Quantity] = 3
+	)
+
+-- Listing 5-3
+COUNTROWS(
+	FILTER(
+		'Fact Sale',
+		RELATED('Dimension City'[State Province]) = "Texas"
+		)
+	)
+
+-- Listing 5-4
+Test Measure = 
+VAR MyFilterTable = 
+    FILTER(
+        VALUES('Dimension City'[State Province]),
+        LEFT('Dimension City'[State Province],1) = "N"
+        )
+RETURN 
+   CALCULATE(
+       SUM('Fact Sale'[Quantity]),
+       MyFilterTable
+       )
+
+
+-- Listing 5-5
+Test Measure 2 = 
+VAR MyFilterTable = 
+    SELECTCOLUMNS(
+        FILTER(
+            VALUES('Dimension City'[State Province]),
+            LEFT('Dimension City'[State Province],1) = "N"
+            ),
+            "Something else",[State Province],
+            "State Provice","dummy value"
+            )
+RETURN 
+   CALCULATE(
+       SUM('Fact Sale'[Quantity]),
+       MyFilterTable
+       )
+
+-- Listing 5-6
+Measure 5-6 = 
+VAR MyFilterTable = 
+    FILTER(
+        ALL(
+            'Dimension City'[State Province],
+            'Dimension City'[City]
+            ),
+        LEFT('Dimension City'[State Province],1) = "N" &&
+        LEFT('Dimension City'[City],1) = "N"
+        )
+RETURN 
+   CALCULATE(
+       SUM('Fact Sale'[Quantity]),
+       MyFilterTable
+       )
+
+
+-- Listing 5-8
+Measure 5-8 = 
+VAR MyFilterTable = 
+    FILTER(
+        ALL(
+            'Dimension City'[State Province],
+            'Dimension City'[City]
+            ),
+        LEFT('Dimension City'[State Province],1) = "N" &&
+        LEFT('Dimension City'[City],1) = "N"
+        )
+VAR MyFilterTableYear =
+    FILTER (
+            'Dimension Date' ,
+            'Dimension Date'[Calendar Year] = 2014
+        )
+
+RETURN 
+   CALCULATE(
+       SUM('Fact Sale'[Quantity]),
+       MyFilterTable,
+       MyFilterTableYear
+       )
+
+-- Listing 5-9
+Measure 5-10 = 
+VAR MyFilterTable = ALL('Dimension Date'[Calendar Year])
+RETURN 
+   CALCULATE(
+        COUNTROWS('Fact Sale'),
+        MyFilterTable
+   )
+
+
+-- Listing 5-11
+Measure 5-11 = 
+VAR MyFilterTable = ALL('Dimension Date')
+RETURN 
+   CALCULATE(
+        COUNTROWS('Fact Sale'),
+        MyFilterTable
+   )
+
+-- Listing 5-12
+Measure 5-12 = 
+VAR MyPreviousYear = 
+    SELECTEDVALUE('Dimension Date'[Calendar Year]) - 1
+VAR MyFilterTable = 
+    FILTER(
+        ALL('Dimension Date'[Calendar Year]),
+        [Calendar Year]=MyPreviousYear
+        )
+RETURN
+   CALCULATE(
+    COUNTROWS('Fact Sale') ,
+    MyFilterTable
+   ) 
+
+-- Listing 5-13
+Measure 5-13 = 
+VAR MyPreviousYear = 
+    SELECTEDVALUE('Dimension Date'[Calendar Year]) - 1
+VAR MyFilterTable = 
+    FILTER(
+        ALL('Dimension Date'[Calendar Year]),
+        [Calendar Year]=MyPreviousYear
+        )
+VAR MyPreviousValue = 
+    CALCULATE(
+        COUNTROWS('Fact Sale') ,
+        MyFilterTable
+        ) 
+VAR MyCurrentValue = COUNTROWS('Fact Sale')
+RETURN 
+    DIVIDE(
+        MyCurrentValue - MyPreviousValue,
+        MyCurrentValue
+    )
+
+-- Listing 5-14
+Measure 5-14 = 
+VAR MyPreviousValue = 
+    CALCULATE(
+        COUNTROWS('Fact Sale'),
+        PREVIOUSYEAR('Dimension Date'[Date])
+        )
+VAR myCurrentValue = 
+    COUNTROWS('Fact Sale')
+RETURN 
+    DIVIDE(
+        myCurrentValue - myPreviousValue,
+        myCurrentValue
+    )
+
+-- Listing 5-15
+Measure 5-15 ALLSELECTED= 
+VAR myYearTotal =  
+    CALCULATE(
+        COUNTROWS('Fact Sale'),
+               ALLSELECTED('Dimension Customer'[Buying Group])
+
+            )
+VAR myMonthTotal = COUNTROWS('Fact Sale')
+RETURN 
+    DIVIDE(
+        myMonthTotal, 
+        myYearTotal
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

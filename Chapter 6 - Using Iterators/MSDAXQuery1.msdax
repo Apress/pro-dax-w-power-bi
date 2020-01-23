@@ -1,0 +1,21 @@
+EVALUATE
+ROW ( 
+	"Sum of Quantity", 
+	SUMX ( 
+		'Table6-5', 
+		'Table6-5'[Quantity] * RAND()//* 'Table6-5'[Value]
+		) 
+	)
+
+
+EVALUATE
+ROW ( 
+	"Sum of Quantity", 
+	SUM('Table6-5'[Quantity])
+	)
+
+EVALUATE 
+	ROW (
+		"Count of Rows" ,
+		COUNTROWS('Table6-5') / 3
+		)

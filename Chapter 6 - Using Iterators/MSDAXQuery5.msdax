@@ -1,0 +1,12 @@
+DEFINE MEASURE 'Table6-5'[x] = SUM('Table6-5'[Value])
+	   MEASURE 'Table6-5'[y] = SUMX('Table6-5',[Value])
+	   MEASURE 'Table6-5'[z] = SUMX('Table6-5',[Value] * [Quantity])
+
+
+EVALUATE
+
+	ADDCOLUMNS(
+		VALUES('Table6-5'[Category]) ,
+		"Simple Sum z",
+		[z]
+		)

@@ -1,0 +1,278 @@
+-- Listing 13-1
+EVALUATE 
+	ROW(
+		"My Column Name", 
+		1 + 1
+		)
+
+
+-- Listing 13-2
+AddColumns: RelLogOp DependOnCols()() 0-0 RequiredCols(0)(''[My Column Name])
+	Constant: ScaLogOp DependOnCols()() Integer DominantValue=2
+
+
+-- Listing 13-3
+AddColumns: IterPhyOp LogOp=AddColumns IterCols(0)(''[My Column Name])
+	SingletonTable: IterPhyOp LogOp=AddColumns
+	Constant: LookupPhyOp LogOp=Constant Integer 2
+
+-- Listing 13-4
+EVALUATE 
+	ROW (
+		"Sum of Quantity",
+		SUM('Fact Sale'[Quantity])
+		)
+-- Listing 13-5
+Scan_Vertipaq
+GroupBy_Vertipaq
+Filter_Vertipaq
+Sum_Vertipaq
+Min_Vertipaq
+Max_Vertipaq
+Count_Vertipaq
+DistinctCount_Vertipaq
+Average_Vertipaq
+Stdev.S_Vertipaq
+Stdev.P_Vertipaq
+Var.S_Vertipaq
+Var.P_Vertipaq
+
+-- Listing 13-6
+EVALUATE
+	ADDCOLUMNS(
+		VALUES('Dimension Date'[Date]) , 
+		"Quantity Per Day",
+		SUM('Fact Sale'[Quantity])
+		)
+
+
+-- Listing 13-7
+AddColumns: RelLogOp ([Date], [Quantity Per Day])
+	Scan_Vertipaq: RelLogOp ('Dimension Date'[Date])
+	Sum_Vertipaq: ScaLogOp 
+		Scan_Vertipaq: RelLogOp ('Fact Sale'[Quantity])
+		'Fact Sale'[Quantity]: ScaLogOp ([Quantity])
+
+-- Listing 13-8
+AddColumns: IterPhyOp (0,1)([Date],[Quantity Per Day])
+	Spool_Iterator: IterPhyOp LogOp=Scan_Vertipaq [Date]
+		ProjectionSpool: SpoolPhyOp #Records=1461
+			Cache: IterPhyOp 
+	SpoolLookup: LookupPhyOp LogOp=Sum_Vertipaq 
+		ProjectionSpool: SpoolPhyOp #Records=1
+			Cache: IterPhyOp 
+
+-- Listing 13-9
+<ClearCache ... />
+GO
+EVALUATE 
+	ROW(
+		"Basic SUM",
+		SUM('Fact Sale'[Quantity])
+		)
+GO
+<ClearCache .../>
+GO
+EVALUATE 
+	ROW(
+		"Calculate SUM",
+		CALCULATE(SUM('Fact Sale'[Quantity]))
+		)
+GO
+<ClearCache .../>
+GO
+EVALUATE 
+	ROW(
+		"SumX SUM",
+		SUMX('Fact Sale','Fact Sale'[Quantity])
+		)
+
+-- Listing 13-10
+AddColumns: RelLogOp
+	Sum_Vertipaq: ScaLogOp
+		Scan_Vertipaq: RelLogOp 'Fact Sale'[Quantity]
+		'Fact Sale'[Quantity]: ScaLogOp
+
+-- Listing 13-11
+DEFINE 
+	VAR varTest = "Quantity"
+EVALUATE
+	ADDCOLUMNS(
+		VALUES('Dimension Date'[Calendar Year]) ,
+		"IF Test" ,
+		IF (
+			varTest = "Quantity" , 
+			SUM('Fact Sale'[Quantity]) ,  
+			SUM('Fact Sale'[Profit]))     --<= redundant
+		)
+
+-- Listing 13-12
+varTest: Constant: ScaLogOp VarName=varTest 
+AddColumns: RelLogOp 
+	Scan_Vertipaq: RelLogOp [Calendar Year]
+	Integer->Double: ScaLogOp DependOnCols [Calendar Year]
+		Sum_Vertipaq: ScaLogOp MeasureRef=[Sum Quantity] 
+			Scan_Vertipaq: RelLogOp
+			'Fact Sale'[Quantity]: ScaLogOp [Quantity]
+
+-- Listing 13-13
+DEFINE 
+	MEASURE 'Fact Sale'[Sum Quantity] 
+                 = SUM('Fact Sale'[Quantity])
+	MEASURE 'Fact Sale'[Sum Profit] 
+                 = SUM('Fact Sale'[Profit])
+EVALUATE
+	ADDCOLUMNS(
+		VALUES('Dimension Date'[Calendar Year]) ,
+		"IF Test" ,
+		IF (
+			[Calendar Year] = 2015 , 
+			[Sum Quantity]  ,	--<= Then
+			[Sum Profit]	--<= Else
+			)
+		)
+
+-- Listing 13-14
+AddColumns: RelLogOp
+	Scan_Vertipaq: RelLogOp [Calendar Year])
+	If: ScaLogOp 'Dimension Date'[Calendar Year]
+		'Dimension Date'[Calendar Year] = 2015: ScaLogOp 
+		PredicateCheck: RelLogOp
+			ScalarVarProxy: ScaLogOp
+		PredicateCheck: RelLogOp
+			ScalarVarProxy: ScaLogOp
+		Sum_Vertipaq: ScaLogOp MeasureRef=[Sum Quantity]
+			Scan_Vertipaq: RelLogOp 
+			'Fact Sale'[Quantity]: ScaLogOp 
+		Sum_Vertipaq: ScaLogOp MeasureRef=[Sum Profit]
+			Scan_Vertipaq: RelLogOp
+			'Fact Sale'[Profit]: ScaLogOp
+
+-- Listing 13-15
+SWITCH Measure = 
+VAR UserSelection = SELECTEDVALUE('Measure Table'[Column1])
+RETURN
+    SWITCH(
+        TRUE() ,
+        UserSelection = "Measure 1" , [Test Measure 1],
+        UserSelection = "Measure 2" , [Test Measure 2],
+        [Test Measure 3]
+       )
+
+
+-- Listing 13-16
+EVALUATE
+	ADDCOLUMNS(
+		VALUES('Dimension Date'[Calendar Year]) ,
+		"Quantity Per year",
+		SUMX('Fact Sale','Fact Sale'[Quantity])
+		)
+
+-- Listing 13-17
+EVALUATE
+	ADDCOLUMNS(
+		VALUES('Dimension Date'[Calendar Year]) ,
+		"Quantity Per year" ,
+		CALCULATE(
+			SUMX('Fact Sale','Fact Sale'[Quantity])
+			)
+		) 
+
+-- Listing 13-18
+AddColumns: RelLogOp 
+	Scan_Vertipaq: RelLogOp 
+	Sum_Vertipaq: ScaLogOp 
+			↳ DependOnCols()()
+		Scan_Vertipaq: RelLogOp 
+				↳ DependOnCols()() 
+				↳ 1-110 
+				↳ RequiredCols(13)('Fact Sale'[Quantity])
+		'Fact Sale'[Quantity]: ScaLogOp
+
+
+-- Listing 13-19
+AddColumns: RelLogOp 
+	Scan_Vertipaq: RelLogOp 
+	Sum_Vertipaq: ScaLogOp 
+			↳ DependOnCols(0)([Calendar Year]) 
+		Scan_Vertipaq: RelLogOp 
+				↳ DependOnCols(0)([Calendar Year]) 
+				↳ 1-110 
+				↳ RequiredCols(0, 13)
+				↳([Calendar Year], [Quantity])	
+		'Fact Sale'[Quantity]: ScaLogOp
+
+
+-- Listing 13-20
+<ClearCache .../>
+GO
+EVALUATE
+	ADDCOLUMNS(
+		VALUES('Dimension Date'[Date]),
+		"Running total of Quantity" ,
+		CALCULATE(
+			SUMX(
+				'Fact Sale',
+				'Fact Sale'[Quantity]
+				),
+			'Dimension Date'[Date]<= 
+				↳ EARLIER('Dimension Date'[Date])
+			)
+		)
+GO
+<ClearCache .../>
+GO
+EVALUATE
+	ADDCOLUMNS(
+		VALUES('Dimension Date'[Date]),
+		"Running total of Quantity" ,
+		SUMX(
+			FILTER(
+				'Fact Sale',
+				'Fact Sale'[Invoice Date Key]<= 
+					↳ EARLIER('Dimension Date'[Date])
+				),
+			'Fact Sale'[Quantity]
+			)
+		)
+
+
+-- Listing 13-21
+AddColumns: RelLogOp 
+	Scan_Vertipaq: RelLogOp
+	Calculate: ScaLogOp 
+		Sum_Vertipaq: ScaLogOp 
+			Scan_Vertipaq: RelLogOp 
+			'Fact Sale'[Quantity]: ScaLogOp 
+		Filter: RelLogOp DependOnCols(0)
+			Scan_Vertipaq: RelLogOp 
+			LessThanOrEqualTo: ScaLogOp 
+				'Dimension Date'[Date]: ScaLogOp 
+				'Dimension Date'[Date]: ScaLogOp
+
+-- Listing 13-22 
+AddColumns: RelLogOp
+	Scan_Vertipaq: RelLogOp
+	SumX: ScaLogOp DependOnCols(0)
+		Filter: RelLogOp DependOnCols(0)
+			Scan_Vertipaq: RelLogOp
+			LessThanOrEqualTo: ScaLogOp 
+				'Fact Sale'[Invoice Date Key]: ScaLogOp
+				'Dimension Date'[Date]: ScaLogOp
+		'Fact Sale'[Quantity]: ScaLogOp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

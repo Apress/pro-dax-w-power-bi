@@ -1,0 +1,168 @@
+-- Listing 6-1
+SUMX Example = 
+VAR 
+    MyForEach = GENERATESERIES(1,6) 
+RETURN 
+    SUMX( MyForEach, 2 )
+
+
+-- Listing 6-2
+SUMX Example = 
+VAR 
+    MyForEach = GENERATESERIES(1,6) 
+RETURN 
+    SUMX( MyForEach , [Value] * 2 )
+
+
+-- Listing 6-3
+Total using SUMX = 
+    SUMX(
+        'Table 6-1',
+        'Table 6-1'[Price] * 'Table 6-1'[Quantity]
+        )
+
+
+-- Listing 6-4
+Total using SUM = 
+    SUM('Table 6-1'[Price]) * SUM('Table 6-1'[Quantity])
+
+-- Listing 6-5
+Sum of Price = SUM('Table 6-1'[Price])
+
+-- Listing 6-6
+Sum of Quantity = SUM('Table 6-1'[Quantity])
+
+-- Listing 6-7
+Total using AVERAGEX = 
+    AVERAGEX(
+        VALUES('Table 6-1'[Year]),
+        DIVIDE(
+            SUMX(
+                FILTER(
+                    'Table 6-1', 
+                    'Table 6-1'[Year] = 
+                        EARLIEST('Table 6-1'[Year])
+                    ),
+                [Sum of Price] * [Sum of Quantity]
+                ),
+            [Sum of Quantity]
+            )
+        )
+
+-- Listing 6-8
+Loop Measure = 
+VAR outerLoop = GENERATESERIES(1,4)
+VAR innerLoop = DATATABLE("Value",STRING,{{"A"},{"B"},{"C"}})
+RETURN 
+    CONCATENATEX(
+        // foreach row in the outerLoop table
+        outerLoop ,
+        CONCATENATEX(
+            //foreach row in the innerLoop table
+            innerLoop ,
+            EARLIER([Value]) & "-" & [Value] ,
+            //inner loop delimiter
+            " , "
+            ) ,
+        //outerLoop Delimiter
+        " / "
+)
+
+
+-- Listing 6-9
+            EARLIER([Value]) & "-" & [Value] ,
+
+            EARLIER([Value],1) & "-" & [Value] ,
+
+            EARLIEST([Value]) & "-" & [Value] ,
+
+-- Listing 6-10
+Sum of Value = SUM('Table 6-4'[Value])
+
+My Rank = 
+    RANKX(
+        'Table 6-4',
+     [Sum of Value]
+        )
+
+
+-- Listing 6-11
+My Debug Rank = 
+    CONCATENATEX(
+        'Table 6-4',
+        [Sum of Value],
+        -- Formatting Parameters --
+        ", " 
+        )
+
+-- Listing 6-12
+My Debug Rank = 
+    CONCATENATEX(
+        ALL('Table 6-4'[Category]),
+        [Sum of Value],
+        -- Formatting Parameters --
+        ", " , 
+        -- Order by  -- 
+        'Table 6-4'[Sum of Value] , 
+        ASC 
+        )
+
+-- Listing 6-13
+My Rank = 
+    RANKX(
+        ALL('Table 6-4'[Category]),
+        [Sum of Value]
+        )
+
+-- Listing 6-14
+Total = 
+    SUMX (
+        'Table6-5' ,
+        'Table6-5'[Value] * 'Table6-5'[Quantity]
+    )
+
+-- Listing 6-15
+Total (Debug) = 
+    "=" &
+    CONCATENATEX(
+        'Table6-5' ,
+        'Table6-5'[Value] * 'Table6-5'[Quantity],
+        "+" 
+    )
+
+-- Listing 6-16
+Total = 
+    SUMX (
+        'Table6-5' ,
+        'Table6-5'[Value] 
+            * 'Table6-5'[Quantity] 
+            * IF(
+                ISINSCOPE('Table6-5'[Category]), --<= TEST 
+                1, --<= THEN 
+                2  --<= ELSE
+                ) 
+        )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,36 @@
+EVALUATE
+ROW ( 
+	"Sum of Quantity 1", 
+	SUM ( 
+		
+		'Table6-5'[Quantity] 
+		) 
+	)
+
+EVALUATE
+ROW ( 
+	"Sum of Quantity 2 ", 
+	SUMX ( 
+		'Table6-5', 
+		'Table6-5'[Quantity] 
+		) 
+	)
+
+
+
+EVALUATE
+ROW ( 
+	"Total Price", 
+	MAXX ( 
+		'Table6-5', 
+		'Table6-5'[Quantity] * [Value]
+		) 
+	)
+
+EVALUATE
+ROW ( 
+	"Total Price", 
+	MAX(
+		'Table6-5'[Quantity] 
+		) 
+	)

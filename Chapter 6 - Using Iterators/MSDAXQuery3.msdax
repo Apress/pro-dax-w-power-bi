@@ -1,0 +1,14 @@
+EVALUATE
+ROW ( 
+	"Sum of Quantity", 
+	COUNTROWS(
+		FILTER(
+		'Table6-5' ,
+		'Table6-5'[Category] <> "A"
+			)
+		)
+	)EVALUATE
+ROW ( 
+	"My Simple Test", 
+	2
+	)

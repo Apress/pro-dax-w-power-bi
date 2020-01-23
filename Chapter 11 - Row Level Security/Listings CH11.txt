@@ -1,0 +1,38 @@
+-- Listing 11-1
+Sum of Quantity = SUM('Fact Sale'[Quantity])
+
+-- Listing 11-2
+Sum of Quantity = SUM('Fact Sale'[Quantity])
+
+-- Listing 11-3
+AddColumns:
+	SingletonTable: 
+	SpoolLookup: LogOp=Sum_Vertipaq
+		ProjectionSpool<ProjectFusion<Copy>>: 
+			Cache: IterPhyOp
+
+-- Listing 11-4
+EVALUATE
+  ROW(
+  "Sum_of_Quantity", 'Fact Sale'[Sum of Quantity]
+)
+
+-- Listing 11-4
+Dynamic RLS test = 
+    COMBINEVALUES(
+            ", " ,
+            "USERNAME() = " & USERNAME() ,
+            "USERPRINCIPALNAME() = " & USERPRINCIPALNAME()
+    )
+
+
+-- Listing 11-5
+UserPrincipalName = 
+    SUBSTITUTE('Dimension Employee'[Employee]," ",".") & 
+    "@wideworldimporters.com"
+
+
+
+
+
+

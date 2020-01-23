@@ -1,0 +1,265 @@
+-- Listing 9-1
+Date Table = 
+    ADDCOLUMNS(
+        GENERATESERIES(-5,5),
+        "My Date Format",FORMAT([Value],"Long Date")
+        )
+
+
+-- Listing 9-2
+Dates = 
+    CALENDAR(
+        DATE(2010, 1, 1) ,
+        DATE(2020,12,31)
+    )
+
+
+-- Listing 9-3
+TI Function Debug Column = 
+VAR MyFunct = PREVIOUSMONTH('Dimension Date'[Date])
+RETURN 
+    COMBINEVALUES(
+        ", ",
+        "Min Date=" & FORMAT(MINX(MyFunct,[Date]),"YYYY-MM-dd"),
+        "Max Date=" & FORMAT(MAXX(MyFunct,[Date]),"YYYY-MM-dd"),
+        "Rowcount=" & COUNTROWS(MyFunct)
+    )
+
+
+--Listing 9-4
+Sum of Quantity = SUM('Fact Sale'[Quantity])
+
+Sum of Quantity Prev Month = 
+    CALCULATE(
+        [Sum of Quantity],
+        PREVIOUSMONTH('Dimension Date'[Date])
+        )
+
+-- Listing 9-5
+TI Function Debug Column = 
+VAR MyFunct = DATEADD('Dimension Date'[Date],-1,MONTH)
+RETURN 
+    COMBINEVALUES(
+        ", ",
+        "Min Date=" & FORMAT(MINX(MyFunct,[Date]),"YYYY-MM-dd"),
+        "Max Date=" & FORMAT(MAXX(MyFunct,[Date]),"YYYY-MM-dd"),
+        "Rowcount=" & COUNTROWS(MyFunct)
+    )
+
+-- Listing 9-6
+Sum of Quantity Prev Month = 
+    CALCULATE(
+        [Sum of Quantity],
+        DATEADD('Dimension Date (2)'[Date],-1,MONTH)
+        )
+
+
+-- Listing 9-8
+DATEADD -1 = 
+VAR MyFunct = DATEADD('Dimension Date'[Date],-1,MONTH)
+RETURN 
+    COMBINEVALUES(
+        ", ",
+        "Min Date=" & FORMAT(MINX(MyFunct,[Date]),"YYYY-MM-dd"),
+        "Max Date=" & FORMAT(MAXX(MyFunct,[Date]),"YYYY-MM-dd"),
+        "Rowcount=" & COUNTROWS(MyFunct)
+    )
+
+-- Listing 9-10
+DATESBETWEEN as Table = 
+    DATESBETWEEN(
+        'Dimension Date'[Date],
+        DATE(2013,3,3),
+        DATE(2013,3,9)  
+        )
+
+DATESINPERIOD as Table = 
+    DATESINPERIOD(
+        'Dimension Date'[Date],
+        DATE(2013,3,3),
+        7,
+        DAY
+        )
+
+-- Listing 9-11
+TOTALMTD ( 
+	SUM ('Fact Sale'[Quantity]), 
+	'Dimension Date'[Date] 
+	)
+
+// Gets converted to :
+
+CALCULATE( 
+	SUM ('Fact Sale'[Quantity]), 
+    DATESBETWEEN(
+		'Dimension Date'[Date], 
+		STARTOFMONTH(
+			LASTDATE('Dimension Date'[Date])
+			), 
+		LASTDATE('Dimension Date'[Date])
+		) 
+	)
+
+-- Listing 9-12
+TotalMTD(
+	<expression>, 
+	<dates>, 
+	<filter>
+)
+
+// Gets converted to :
+
+Calculate(
+	<expression>,
+	DatesMTD(<dates>), 
+	<filter>
+	)
+
+-- Listing 9-13
+OpeningBalanceMonth(
+	<expression>, 
+	<dates>, 
+	<filter>
+	)
+
+// Gets converted to :
+
+Calculate(
+	<expression>, 
+	PreviousDay(
+		StartOfMonth(<dates>)
+		), 
+	filter
+	)
+
+-- Listing 9-14
+ClosingBalanceMonth(
+	<expression>, 
+	<dates>, 
+	<filter>
+	)
+
+// Gets converted to :
+
+Calculate(
+	<expression>, 
+	EndOfMonth(<dates>), 
+	<filter>
+	)
+
+-- Listing 9-15
+DEFINE MEASURE 
+	'Fact Sale'[Sum of Quantity] = 
+		FORMAT(SUM('Fact Sale'[Quantity]),"#,###")
+
+EVALUATE
+	ADDCOLUMNS(
+		VALUES('Dimension Date'[calendar month label]),
+		--------------------------------------
+		"Sum of Quantity", 
+		[Sum of Quantity] ,
+		--------------------------------------
+		"Calender YTD" ,
+		TOTALYTD(
+			[Sum of Quantity],
+			'Dimension Date'[Date]
+			),
+		--------------------------------------
+		"Fiscal YTD" , 
+		TOTALYTD(
+			[Sum of Quantity],
+			'Dimension Date'[Date],
+			"31/1"
+			)
+		)
+
+-- Listing 9-16
+EVALUATE
+	ADDCOLUMNS(
+		--VALUES('Dimension Date'[calendar month label]),
+		VALUES('Dimension Date'[date]),
+		...  
+-- Listing 9-17
+WEEKDAY Date Table = 
+    ADDCOLUMNS(
+        CALENDAR( DATE( 2019, 1, 1) , DATE( 2019, 1, 20) ) ,
+        "Return Type 1" , WEEKDAY( [Date] , 1 ) ,
+        "Return Type 2" , WEEKDAY( [Date] , 2 ) ,
+        "Return Type 3" , WEEKDAY( [Date] , 3 ) 
+    )
+
+-- Listing 9-18
+WEEKDAY Date Table = 
+    ADDCOLUMNS(
+        CALENDAR( DATE( 2019, 1, 1) , DATE( 2019, 1, 20) ) ,
+        "Return Type 2" , WEEKDAY( [Date] +2 , 2 ) ,
+        "Return Type 3" , WEEKDAY( [Date] +2 , 3 ) 
+    )
+
+-- Listing 9-19
+WEEKDAY Date Table = 
+    ADDCOLUMNS(
+        CALENDAR( DATE( 2019, 1, 1) , DATE( 2019, 1, 20) ) ,
+        "Week Starting" , [Date] - WEEKDAY( [Date] , 2 ) ,
+        "Week Ending"   , [Date] - WEEKDAY( [Date] , 2 ) + 7
+    )
+
+-- Listing 9-20
+WEEKNUM Date Table = 
+    ADDCOLUMNS(
+        CALENDAR( DATE( 2019, 12, 25) , DATE( 2020, 1, 15) ) 
+        , "Return Type 1"  , WEEKNUM([Date],   1) 
+        , "Return Type 2"  , WEEKNUM([Date],   2) 
+        -----------------------------------------
+        , "Return Type 21" , WEEKNUM([Date],  21) 
+        , "Return Type 11" , WEEKNUM([Date],  11) 
+        , "Return Type 12" , WEEKNUM([Date],  12) 
+        , "Return Type 13" , WEEKNUM([Date],  13) 
+        , "Return Type 14" , WEEKNUM([Date],  14) 
+        , "Return Type 15" , WEEKNUM([Date],  15)    
+        , "Return Type 16" , WEEKNUM([Date],  16)       
+        , "Return Type 17" , WEEKNUM([Date],  17)                     
+    )
+
+
+-- Listing 9-21
+Week Number = WEEKNUM( [Date],  21) 
+
+
+-- Listing 9-22
+Week Number (Year) = 
+VAR MyWeekNumber = 'Dimension Date'[Week Number]
+VAR MyDate = 'Dimension Date'[Date]
+VAR MyDates = 
+    FILTER(
+        'Dimension Date',
+        [Date] > MyDate - 6 && 
+        [Date] < MyDate + 6 &&
+        [Week Number] = MyWeekNumber
+        )
+RETURN 
+    IF(
+        MyWeekNumber = 1, 
+        MAXX(MyDates,[Calendar Year]),
+        MINX(MyDates,[Calendar Year])
+        )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
